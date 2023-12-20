@@ -55,7 +55,7 @@ def pso(dim, num_particles, max_iterations, min_bound, max_bound, inertia_weight
 
             if fitness < particle.best_fitness:
                 particle.best_fitness = fitness
-                particle.best_position = particle.position
+                particle.best_position = particle.position.copy()
 
             if fitness < global_best_fitness:
                 global_best_position = particle.position.copy()
