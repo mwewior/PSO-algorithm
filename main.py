@@ -1,12 +1,16 @@
-from particle import Particle
 import pso
-import random
-import numpy as np
-import matplotlib.pyplot as plt
-# from mpl_toolkits.mplot3d import Axes3D
+import plot
 import math
 
-
+def f(x, fun):
+    x1, x2 = x[0], x[1]
+    if fun == 1:
+        return (x1**2 + x2 - 11)**2 + (x1 + x2**2 - 7)**2
+    elif fun == 2:
+        return 5*math.e**2-4*math.e*x1+x1**2+2*math.e*x2+x2**2
+    elif fun == 3:
+        return sum(xi ** 2 for xi in x)
+    
 if __name__=='__main__':
 
     # Parametry algorytmu PSO
@@ -15,56 +19,25 @@ if __name__=='__main__':
     max_iterations = 100
     min_bound = -5.0
     max_bound = 5.0
-    inertia_weight = 0.7
-    c1 = 1.5
-    c2 = 0.1
+    initial_inertia_weight = 0.72984
+    c1 = 2.05
+    c2 = 2.05
+    fun = 3 # wybór funkcji 
+    draw_online = 1 # czy rysować online
+    draw_result = 1 # czy narysować wynik
+    plot_points, plot_best_point = 0,0
 
-    plt.ion()
-
-    # Rysowanie funkcji celu
-    x = np.linspace(min_bound*2, max_bound*2, 100)
-    y = np.linspace(min_bound*2, max_bound*2, 100)
-    X, Y = np.meshgrid(np.arange(-5,5,0.01) , np.arange(-5,5,0.01) )
-
-    # X, Y = np.meshgrid(np.arange(-10,15,0.01) , np.arange(-15,10,0.01) )
-    Z = pso.f([X, Y])
-
-    fig = plt.figure()
-    # ax = fig.add_subplot(111, projection='3d')
-    # ax.plot_surface(X, Y, Z, cmap='viridis', alpha=0.8, edgecolors='k')
-    contour = plt.contourf(X,Y,Z, cmap='viridis', levels=100)
-    # # Rysowanie ścieżki algorytmu PSO
-    # history = np.array(history).T
-    # Wyświetlenie punktów
-    points = plt.scatter([], [], c='r', marker='o')
-    best_point = plt.scatter([], [], c='g', marker='o')
+    inertia_mode = 3
 
 
 
-    # Dodanie kolorowej skali
-    cbar = plt.colorbar(contour)
-    cbar.set_label('Trzecia zmienna')
-
-
-    # ax.plot(history[0], history[1], [f(p) for p in history.T], color='r', marker='o', linestyle='dashed')
-
-
-    plt.xlabel('X')
-    plt.ylabel('Y')
-    # plt.set_zlabel('Objective Function Value')
-    plt.legend()
-
-    plt.show()
 
     # Uruchomienie algorytmu PSO
-    best_position, best_fitness, history = pso.pso(dimensions, num_particles, max_iterations, min_bound, max_bound, inertia_weight, c1, c2, points, best_point)
+    best_position, best_fitness, history = pso.pso(dimensions, num_particles, max_iterations, min_bound, max_bound, initial_inertia_weight, inertia_mode, c1, c2, fun, draw_online)
 
-    # Oznaczenie znalezionego punktu
-    plt.scatter([best_position[0]], [best_position[1]], color='w', s=50, label='Best Position')
+    if draw_result:
+        plot.draw_result(best_position, best_fitness, min_bound, max_bound, fun)
+
+    print(f'Best position = {best_position} and best fitness = {best_fitness}')
 
 
-    # Wyłączenie trybu interaktywnego (niezbędne, aby program zakończył się poprawnie)
-    plt.ioff()
-
-    # Wyświetlenie ostatecznego wykresu (opcjonalne, jeśli chcesz zobaczyć efekt końcowy)
-    plt.show()

@@ -1,16 +1,11 @@
 import random
 import numpy as np
-import matplotlib.pyplot as plt
-# from mpl_toolkits.mplot3d import Axes3D
-import math
+import plot
 from particle import Particle
+import main
+import inertia
 
 
-def f(x):
-    x, y = x[0], x[1]
-    return (x**2 + y - 11)**2 + (x + y**2 - 7)**2
-    # 5*math.e**2-4*math.e*x1+x1**2+2*math.e*x2+x2**2
-    # return sum(xi ** 2 for xi in x)
 
 def update_velocity(particle, global_best_position, inertia_weight, c1, c2):
     for i in range(len(particle.velocity)):
@@ -23,22 +18,24 @@ def update_position(particle):
     for i in range(len(particle.position)):
         particle.position[i] += particle.velocity[i]
 
-def pso(dim, num_particles, max_iterations, min_bound, max_bound, inertia_weight, c1, c2, points, best_point):
+def pso(dim, num_particles, max_iterations, min_bound, max_bound, initial_inertia_weight, inertia_mode, c1, c2, fun=1, draw=0):
     particles = [Particle(dim, min_bound, max_bound) for _ in range(num_particles)]
-    global_best_position = min(particles, key=lambda p: f(p.position)).position
-    global_best_fitness = f([global_best_position[0], global_best_position[0]])
+    global_best_position = min(particles, key=lambda p: main.f(p.position, fun)).position
+    global_best_fitness = main.f([global_best_position[0], global_best_position[0]], fun)
     history = []
 
-    for _ in range(max_iterations):
+    if draw:
+        plot_points, plot_best_point = plot.draw_online(min_bound, max_bound, fun)
+
+    for i in range(max_iterations):
         x = []
         y = []
         for particle in particles:
-            x.append(particle.position[0])
-            y.append(particle.position[1])
-             # Aktualizacja danych punktów na wykresie
+            if draw:
+                x.append(particle.position[0])
+                y.append(particle.position[1])
 
-            # plt.scatter([particle.position[0]], [particle.position[1]], color='r', s=10, label='Best Position')
-            fitness = f(particle.position)
+            fitness = main.f(particle.position, fun)
 
             if fitness < particle.best_fitness:
                 particle.best_fitness = fitness
@@ -49,17 +46,22 @@ def pso(dim, num_particles, max_iterations, min_bound, max_bound, inertia_weight
                 global_best_fitness = fitness
 
         for particle in particles:
+            if inertia_mode == 1:
+                inertia_weight = initial_inertia_weight
+            elif inertia_mode == 2:
+                inertia_weight = inertia.mode2(i, max_iterations, initial_inertia_weight)
+            elif inertia_mode == 3:
+                inertia_weight = inertia.mode3(particle.best_fitness, global_best_fitness, initial_inertia_weight)
             update_velocity(particle, global_best_position, inertia_weight, c1, c2)
             update_position(particle)
-        # Oczekiwanie na chwilę, aby zobaczyć zmiany
-        # plt.scatter([global_best_particle.best_position[0]], [global_best_particle.best_position[1]], color='g', s=20, label='Best Position')
-        points.set_offsets(np.column_stack((x, y)))
-        best_point.set_offsets(np.column_stack((global_best_position[0], global_best_position[1])))
-
-        plt.pause(0.1)
-        # plt.clf()
-        # plt.contourf(X,Y,Z, cmap='viridis', levels=100)
+        if draw:
+            plot_points.set_offsets(np.column_stack((x, y)))
+            plot_best_point.set_offsets(np.column_stack((global_best_position[0], global_best_position[1])))
+            plot.pause()
 
         history.append(global_best_position)
+    if draw:
+        plot.off()
 
-    return global_best_position, f(global_best_position), history
+
+    return global_best_position, main.f(global_best_position, fun), history
