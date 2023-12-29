@@ -20,7 +20,19 @@ def f(x, fun):
     elif fun == 6: # holder_table
         return -abs(np.sin(x[0]) * np.cos(x[1]) * np.exp(abs(1 - np.sqrt(x[0]**2 + x[1]**2)/np.pi)))
     
-    
+def bounds(fun):
+    if fun == 1:
+        return -5,5
+    elif fun == 2: # booth
+        return -10, 10
+    elif fun == 3: # rosenbrock
+        return  -5, 10
+    elif fun == 4: # ackley
+        return  -32.768, 32.768
+    elif fun == 5: # michalewicz
+        return 0, np.pi
+    elif fun == 6: # holder_table
+        return -10, 10
     
 if __name__=='__main__':
 
@@ -28,27 +40,25 @@ if __name__=='__main__':
     dimensions = 2
     num_particles = 25
     max_iterations = 150
-    min_bound = -5.0
-    max_bound = 5.0
     initial_inertia_weight = 0.72984
     c1 = 2.05
     c2 = 2.05
 
-    fun = 1 # wybór funkcji :
-            # 1 - wielomianowa 
-            # 2 - booth
-            # 3 - rosenbrock
-            # 4 - ackley
-            # 5 - michalewicz
-            # 6 - holder_table
-    
+    fun = 6 # wybór funkcji :
+            # 1 - wielomianowa  - f(x) = 0 x = (0, 0)
+            # 2 - booth - f(x) = 0 x = (1, 3)
+            # 3 - rosenbrock - f(x) = 0 x = (0, 0)
+            # 4 - ackley  - f(x) = -1.8013 x = (2.20, 1.57)
+            # 5 - michalewicz - f(x) = 0 x = (0, 0)
+            # 6 - holder_table - f(x) = -19.2085 x = (8.05502, 9.66459), x = (-8.05502, 9.66459), x = (8.05502, -9.66459), x = (-8.05502, -9.66459)
+    min_bound, max_bound = bounds(fun)
 
     draw_online = 0 # czy rysować online
     draw_result = 1 # czy narysować wynik
 
     inertia_mode = 1
 
-    num_tests = 200
+    num_tests = 200 #200
     best_fitnesses = []
 
     for _ in range(num_tests):
