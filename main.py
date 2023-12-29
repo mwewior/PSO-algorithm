@@ -48,8 +48,8 @@ if __name__=='__main__':
             # 1 - wielomianowa  - f(x) = 0 x = (0, 0)
             # 2 - booth - f(x) = 0 x = (1, 3)
             # 3 - rosenbrock - f(x) = 0 x = (1, 1)
-            # 4 - ackley  - f(x) = -1.8013 x = (2.20, 1.57)
-            # 5 - michalewicz - f(x) = 0 x = (0, 0)
+            # 4 - ackley  - f(x) = 0 x = (0, 0)
+            # 5 - michalewicz - f(x) = -1.8013 x = (2.20, 1.57)
             # 6 - holder_table - f(x) = -19.2085 x = (8.05502, 9.66459), x = (-8.05502, 9.66459), x = (8.05502, -9.66459), x = (-8.05502, -9.66459)
     min_bound, max_bound = bounds(fun)
 
