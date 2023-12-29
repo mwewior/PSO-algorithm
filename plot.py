@@ -5,7 +5,8 @@ import main
 
 def draw_grid(min_bound, max_bound, fun):
      # Rysowanie funkcji celu
-    X, Y = np.meshgrid(np.arange(min_bound,max_bound,0.01) , np.arange(min_bound,max_bound,0.01) )
+    step = abs(max_bound - min_bound)/1000
+    X, Y = np.meshgrid(np.arange(min_bound,max_bound, step) , np.arange(min_bound,max_bound, step) )
 
     Z = main.f([X, Y], fun)
 
