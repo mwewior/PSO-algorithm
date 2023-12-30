@@ -11,7 +11,7 @@ if __name__ == '__main__':
 
     # Parametry algorytmu PSO
     with open("params.yaml", "r") as pso_params:
-        params = yaml.load(pso_params, Loader=yaml.FullLoader)
+        params = yaml.load(pso_params)
 
     inertia_mode =  params['inertia_mode']
     draw_online  =  params['draw_online']   # czy rysować online

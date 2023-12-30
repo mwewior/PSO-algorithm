@@ -25,4 +25,4 @@ fun: 6
 #                                     x = (-8.05502, -9.66459)
 
 draw_online: True
-draw_result: True
+draw_result: False
