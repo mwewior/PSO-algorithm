@@ -4,7 +4,7 @@ import plot
 from particle import Particle
 import main
 import inertia
-
+import yaml
 
 
 def update_velocity(particle, global_best_position, inertia_weight, c1, c2):
@@ -14,11 +14,24 @@ def update_velocity(particle, global_best_position, inertia_weight, c1, c2):
         social_component = c2 * rg * (global_best_position[i] - particle.position[i])
         particle.velocity[i] = inertia_weight * particle.velocity[i] + cognitive_component + social_component
 
+
 def update_position(particle):
     for i in range(len(particle.position)):
         particle.position[i] += particle.velocity[i]
 
-def pso(dim, num_particles, max_iterations, min_bound, max_bound, initial_inertia_weight, inertia_mode, c1, c2, fun=1, draw=0):
+
+def pso(min_bound, max_bound, inertia_mode, fun=1, draw=0):
+
+    with open("params.yaml", "r") as pso_params:
+        params = yaml.load(pso_params, Loader=yaml.FullLoader)
+
+    dim                     = params['dimensions']
+    num_particles           = params['num_particles']
+    max_iterations          = params['max_iterations']
+    initial_inertia_weight  = params['initial_inertia_weight']
+    c2                      = params['c1']
+    c1                      = params['c2']
+
     particles = [Particle(dim, min_bound, max_bound) for _ in range(num_particles)]
     global_best_position = min(particles, key=lambda p: main.f(p.position, fun)).position
     global_best_fitness = main.f([global_best_position[0], global_best_position[0]], fun)
@@ -62,6 +75,5 @@ def pso(dim, num_particles, max_iterations, min_bound, max_bound, initial_inerti
         history.append(global_best_position)
     if draw:
         plot.off()
-
 
     return global_best_position, main.f(global_best_position, fun), history

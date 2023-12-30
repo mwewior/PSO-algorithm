@@ -2,6 +2,7 @@ import pso
 import plot
 import numpy as np
 import time
+import yaml
 
 
 def f(x, fun):
@@ -40,43 +41,35 @@ def bounds(fun):
 
 if __name__ == '__main__':
 
+    # Parametry algorytmu PSO
+    with open("params.yaml", "r") as pso_params:
+        params = yaml.load(pso_params, Loader=yaml.FullLoader)
+
+    inertia_mode =  params['inertia_mode']
+    draw_online  =  params['draw_online']   # czy rysować online
+    draw_result  =  params['draw_result']   # czy narysować wynik
+    num_tests    =  params['num_tests']
+    fun          =  params['fun']
+
+    min_bound, max_bound = bounds(fun)
+
+    best_fitnesses = []
+
+
     print('program started')
     start_time = time.time()
 
-    # Parametry algorytmu PSO
-    dimensions = 2
-    num_particles = 25
-    max_iterations = 250
-    initial_inertia_weight = 0.72984
-    c1 = 2.05
-    c2 = 2.05
-
-    fun = 6 # wybór funkcji :
-            # 1 - wielomianowa  - f(x) = 0 x = (0, 0)
-            # 2 - booth - f(x) = 0 x = (1, 3)
-            # 3 - rosenbrock - f(x) = 0 x = (0, 0)
-            # 4 - ackley  - f(x) = -1.8013 x = (2.20, 1.57)
-            # 5 - michalewicz - f(x) = 0 x = (0, 0)
-            # 6 - holder_table - f(x) = -19.2085 x = (8.05502, 9.66459), x = (-8.05502, 9.66459), x = (8.05502, -9.66459), x = (-8.05502, -9.66459)
-    min_bound, max_bound = bounds(fun)
-
-    draw_online = 0   # czy rysować online
-    draw_result = 0   # czy narysować wynik
-
-    inertia_mode = 1
-
-    num_tests = 1000
-    best_fitnesses = []
-
     for _ in range(num_tests):
         # Uruchomienie algorytmu PSO
-        best_position, best_fitness, history = pso.pso(dimensions, num_particles, max_iterations, min_bound, max_bound, initial_inertia_weight, inertia_mode, c1, c2, fun, draw_online)
+        best_position, best_fitness, history = pso.pso(min_bound, max_bound, inertia_mode, fun, draw_online)
+        # best_position, best_fitness, history = pso.pso(dimensions, num_particles, max_iterations, min_bound, max_bound, initial_inertia_weight, inertia_mode, c1, c2, fun, draw_online)
         best_fitnesses.append(best_fitness)
         print(f'current iteration best fitness equals {best_fitness} for point {best_position}')
 
     end_time = time.time()
     elapsed_time = end_time - start_time
     print(f'algorithm took {elapsed_time} seconds')
+
     print(f'The test was run {num_tests} times')
 
     if draw_result:
@@ -88,4 +81,4 @@ if __name__ == '__main__':
     average2 = sum(sorted(best_fitnesses)) / num_tests
     # print(sorted(best_fitnesses))
 
-    print(f'Average best fitness = {average} for mode {inertia_mode}')
+    print(f'Average best fitness = {average} for mode {inertia_mode}\n\t\t\t{average2}')
