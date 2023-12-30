@@ -15,9 +15,10 @@ def update_velocity(particle, global_best_position, inertia_weight, c1, c2):
         particle.velocity[i] = inertia_weight * particle.velocity[i] + cognitive_component + social_component
 
 
-def update_position(particle):
+def update_position(particle, min_bound, max_bound):
     for i in range(len(particle.position)):
         particle.position[i] += particle.velocity[i]
+        particle.position[i] = min(max_bound, max(min_bound, particle.position[i]))
 
 
 def pso(min_bound, max_bound, inertia_mode, fun=1, draw=False):
@@ -66,7 +67,7 @@ def pso(min_bound, max_bound, inertia_mode, fun=1, draw=False):
             elif inertia_mode == 3:
                 inertia_weight = inertia.mode3(particle.best_fitness, global_best_fitness, initial_inertia_weight)
             update_velocity(particle, global_best_position, inertia_weight, c1, c2)
-            update_position(particle)
+            update_position(particle, min_bound, max_bound)
         if draw:
             plot_points.set_offsets(np.column_stack((x, y)))
             plot_best_point.set_offsets(np.column_stack((global_best_position[0], global_best_position[1])))
