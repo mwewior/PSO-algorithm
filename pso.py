@@ -20,7 +20,7 @@ def update_position(particle):
         particle.position[i] += particle.velocity[i]
 
 
-def pso(min_bound, max_bound, inertia_mode, fun=1, draw=0):
+def pso(min_bound, max_bound, inertia_mode, fun=1, draw=False):
 
     with open("params.yaml", "r") as pso_params:
         params = yaml.load(pso_params, Loader=yaml.FullLoader)
