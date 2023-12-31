@@ -15,7 +15,7 @@ def get_yaml_params(file_path: str, key=""):
         return general_params
 
 
-def save_results(file_path, clear=True):
+def save_results(file_path, test_results, clear=True):
 
     # TODO
     # normalnie nie będzie tego clear, albo będzie domyślnie na False ale na razie dla wygody jest True
@@ -38,7 +38,7 @@ def save_results(file_path, clear=True):
     size = len(file_content)
 
 
-    common = get_yaml_params('./general_params.yaml', "common")
+    common = get_yaml_params('./parameters/general_params.yaml', "common")
 
     new_content = {
         "test_id": size+1,
@@ -46,7 +46,7 @@ def save_results(file_path, clear=True):
         "results": []
     }
 
-    results = new_content["results"]
+    results_list = new_content["results"]
 
     # jakoś inaczej przekazałbym to fun_amount
     fun_amount = 6  #TODO
@@ -63,8 +63,8 @@ def save_results(file_path, clear=True):
             # obsługa zmiany parametrów
             # wykonanie funckji z maina
 
-            values = [f_id][mode]
-            times = [f_id][mode]
+            values = test_results["values"][f_id][mode]
+            times = test_results["times"][f_id][mode]
 
             cur_test = {
                 "mode": mode,
@@ -73,14 +73,9 @@ def save_results(file_path, clear=True):
             }
             cur_result["inertia"].append(cur_test)
 
-        results.append(cur_result)
+        results_list.append(cur_result)
     file_content.append(new_content)
 
     with open(file_path, 'w') as json_file:
         json.dump(data, json_file, indent=2)
 
-
-# read_and_edit_file('./results/param_json.json')
-
-# data = get_yaml_params('./general_params.yaml', "Specific")
-# print(data)
