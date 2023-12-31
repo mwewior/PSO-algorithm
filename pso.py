@@ -1,10 +1,12 @@
 import random
 import numpy as np
+import yaml
+
 import plot
 from particle import Particle
 import functions
 import inertia
-import yaml
+import file_handler as fh
 
 
 def update_velocity(particle, global_best_position, inertia_weight, c1, c2):
@@ -21,10 +23,12 @@ def update_position(particle, min_bound, max_bound):
         particle.position[i] = min(max_bound, max(min_bound, particle.position[i]))
 
 
-def pso(min_bound, max_bound, inertia_mode, fun=1, draw=False):
+def pso(min_bound, max_bound, inertia_mode, fun, param_path, draw=False):
 
-    with open("params.yaml", "r") as pso_params:
-        params = yaml.load(pso_params, Loader=yaml.FullLoader)
+    # with open("params.yaml", "r") as pso_params:
+    #     params = yaml.load(pso_params, Loader=yaml.FullLoader)
+
+    params = fh.get_yaml_params(param_path, "common")
 
     dim                     = params['dimensions']
     num_particles           = params['num_particles']

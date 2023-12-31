@@ -1,0 +1,14 @@
+common:
+  c1: 2.05
+  c2: 2.05
+  dimensions: 2
+  draw_online: False
+  draw_result: False
+  initial_inertia_weight: 0.72984
+  max_iterations: 150
+  num_tests: 10
+  num_particles: 25
+
+specific:
+  inertia_mode: 1
+  fun: 1

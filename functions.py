@@ -33,3 +33,15 @@ def bounds(fun):
         return 0, np.pi
     elif fun == 6:  # holder_table
         return -10, 10
+
+
+def names(fun):
+    functions = {
+        1: 'wielomian',
+        2: 'booth',
+        3: 'rosenbrock',
+        4: 'ackley',
+        5: 'michalewicz',
+        6: 'holder table'
+    }
+    return functions[fun]
