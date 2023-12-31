@@ -5,19 +5,21 @@ import numpy as np
 import pso
 import plot
 import functions
+import file_handler as fh
 
 
 if __name__ == '__main__':
 
-    # Parametry algorytmu PSO
-    with open("params.yaml", "r") as pso_params:
-        params = yaml.load(pso_params)
+    param_path = "./parameters/edit_params.yaml"
+    common_params = fh.get_yaml_params(param_path, "common")
+    specific_params = fh.get_yaml_params(param_path, "specific")
 
-    inertia_mode =  params['inertia_mode']
-    draw_online  =  params['draw_online']   # czy rysować online
-    draw_result  =  params['draw_result']   # czy narysować wynik
-    num_tests    =  params['num_tests']
-    fun          =  params['fun']
+    draw_online  =  common_params['draw_online']   # czy rysować online
+    draw_result  =  common_params['draw_result']   # czy narysować wynik
+    num_tests    =  common_params['num_tests']
+
+    inertia_mode =  specific_params['inertia_mode']
+    fun          =  specific_params['fun']
 
     min_bound, max_bound = functions.bounds(fun)
 
@@ -29,7 +31,7 @@ if __name__ == '__main__':
 
     for _ in range(num_tests):
         # Uruchomienie algorytmu PSO
-        best_position, best_fitness, history = pso.pso(min_bound, max_bound, inertia_mode, fun, draw_online)
+        best_position, best_fitness, history = pso.pso(min_bound, max_bound, inertia_mode, fun, param_path, draw_online)
         # best_position, best_fitness, history = pso.pso(dimensions, num_particles, max_iterations, min_bound, max_bound, initial_inertia_weight, inertia_mode, c1, c2, fun, draw_online)
         best_fitnesses.append(best_fitness)
         print(f'({_+1}) current iteration best fitness equals {best_fitness} for point {best_position}')
