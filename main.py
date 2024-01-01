@@ -1,6 +1,7 @@
 import time
 import yaml
 import numpy as np
+import statistics
 
 import pso
 import plot
@@ -36,31 +37,69 @@ def benchmark(param_path, fun, inertia_mode):
     return best_fitnesses, times
 
 
-if __name__ == '__main__':
+def make_test(f_ammount, inertia_modes, param_path):
+    values = []
+    times = []
+    average = []
+    deviation_val = []
+    deviation_prcnt = []
 
+    for f_id in range(f_ammount):
+
+        values.append([])
+        times.append([])
+        average.append([])
+        deviation_val.append([])
+        deviation_prcnt.append([])
+
+        for mode in range(inertia_modes):
+
+            test_values, test_times = benchmark(param_path, f_id+1, mode+1)
+
+            mean = statistics.fmean(test_values)
+            variance = statistics.variance(test_values, mean)
+            standard_deviation = np.sqrt(variance)
+            std_dev_percent = abs(standard_deviation / mean) * 100
+            # TODO
+            # nie wiem czy to procentowe odchylenie ma sens
+            # trzeba by to sprawdzić
+
+            values[f_id].append(test_values)
+            times[f_id].append(test_times)
+            average[f_id].append(mean)
+            deviation_val[f_id].append(standard_deviation)
+            deviation_prcnt[f_id].append(std_dev_percent)
+
+    results = {
+        "values": values,
+        "mean": average,
+        "standard deviation": deviation_val,
+        "percentage deviation": deviation_prcnt,
+        "times": times
+    }
+
+    return results
+
+
+if __name__ == '__main__':
+    print("benchmark started")
     param_path = "./parameters/edit_params.yaml"
     save_file_path = "./results/param_json.json"
 
     f_ammount = 6
     inertia_modes = 3
-    values = []
-    times = []
 
-    for f_id in range(f_ammount):
-        values.append([])
-        times.append([])
-        for mode in range(inertia_modes):
-            test_values, test_times = benchmark(param_path, f_id+1, mode+1)
-            values[f_id].append(test_values)
-            times[f_id].append(test_times)
+    start_time = time.time()
 
-    results = {
-        "values": values,
-        "times": times
-    }
-
+    results = make_test(f_ammount, inertia_modes, param_path)
     fh.save_results(save_file_path, results)
+
+    end_time = time.time()
+    test_time = end_time - start_time
+
     print("benchmark ended")
+    print(f'took {test_time} seconds')
+
 
 """
 if __name__ == '__main__':

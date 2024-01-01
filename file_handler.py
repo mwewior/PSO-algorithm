@@ -64,12 +64,18 @@ def save_results(file_path, test_results, clear=True):
             # wykonanie funckji z maina
 
             values = test_results["values"][f_id][mode]
+            mean = test_results["mean"][f_id][mode]
+            deviation = test_results["standard deviation"][f_id][mode]
+            percentage_deviation = test_results["percentage deviation"][f_id][mode]
             times = test_results["times"][f_id][mode]
 
             cur_test = {
                 "mode": mode,
+                "mean": mean,
+                "standard deviation": deviation,
+                "percentage deviation": percentage_deviation,
                 "values": values,
-                "time": times,
+                "time": times
             }
             cur_result["inertia"].append(cur_test)
 
