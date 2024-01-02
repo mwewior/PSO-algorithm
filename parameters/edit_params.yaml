@@ -6,7 +6,7 @@ common:
   draw_result: False
   initial_inertia_weight: 0.72984
   max_iterations: 150
-  num_tests: 10
+  num_tests: 100
   num_particles: 25
 
 specific:
