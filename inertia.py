@@ -3,6 +3,7 @@ import numpy as np
 
 def mode2(i, max_iterations, initial_inertia_weight):
 ## Współczynnik bezwładności zależny od czasu - malejący wraz z kolejnymi iteracjami algorytmu.
+    # liniowa zmiana
     inertia_weight = initial_inertia_weight*(i/max_iterations) +0.2
     return inertia_weight
 

@@ -60,9 +60,16 @@ def make_test(f_ammount, inertia_modes, param_path):
             variance = statistics.variance(test_values, mean)
             standard_deviation = np.sqrt(variance)
             std_dev_percent = abs(standard_deviation / mean) * 100
+
             # TODO
             # nie wiem czy to procentowe odchylenie ma sens
             # trzeba by to sprawdzić
+            #
+            # to chyba będzie do wywalenia
+            # jeszcze trzeba dodoać wektor historii najlepszego rozwiązania
+            # żeby zobaczyć która wersja jest najszybsza itd.
+            # będzie trzeba jakieś dystrybuanty policzyć xD
+            # coś tam na wykładzie 6 jest
 
             values[f_id].append(test_values)
             times[f_id].append(test_times)
