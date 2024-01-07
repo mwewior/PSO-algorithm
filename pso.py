@@ -23,12 +23,11 @@ def update_position(particle, min_bound, max_bound):
         particle.position[i] = min(max_bound, max(min_bound, particle.position[i]))
 
 
-def pso(min_bound, max_bound, inertia_mode, fun, param_path, draw=False):
+def pso(min_bound, max_bound, inertia_mode, fun, params, draw=False):
 
     # with open("params.yaml", "r") as pso_params:
     #     params = yaml.load(pso_params, Loader=yaml.FullLoader)
 
-    params = fh.get_yaml_params(param_path, "common")
 
     dim                     = params['dimensions']
     num_particles           = params['num_particles']
@@ -84,7 +83,7 @@ def pso(min_bound, max_bound, inertia_mode, fun, param_path, draw=False):
             plot_best_point.set_offsets(np.column_stack((global_best_position[0], global_best_position[1])))
             plot.pause()
 
-        history.append(global_best_position)
+        history.append(global_best_fitness)
 
 
     if draw:

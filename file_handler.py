@@ -61,13 +61,14 @@ def save_results(file_path, test_results, clear=True):
         for mode in range(3):
 
             # obsługa zmiany parametrów
-            # wykonanie funckji z maina
+            # wykonanie funkcji z maina
 
             values = test_results["values"][f_id][mode]
             mean = test_results["mean"][f_id][mode]
             deviation = test_results["standard deviation"][f_id][mode]
             percentage_deviation = test_results["percentage deviation"][f_id][mode]
             times = test_results["times"][f_id][mode]
+            histories_means = test_results["histories_means"][f_id][mode]
 
             cur_test = {
                 "mode": mode,
@@ -75,7 +76,8 @@ def save_results(file_path, test_results, clear=True):
                 "standard deviation": deviation,
                 "percentage deviation": percentage_deviation,
                 "values": values,
-                "time": times
+                "time": times,
+                "histories_means": histories_means
             }
             cur_result["inertia"].append(cur_test)
 

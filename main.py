@@ -9,11 +9,10 @@ import functions
 import file_handler as fh
 
 
-def benchmark(param_path, fun, inertia_mode):
+def benchmark(params, fun, inertia_mode):
 
-    common_params = fh.get_yaml_params(param_path, "common")
-    specific_params = fh.get_yaml_params(param_path, "specific")
-    num_tests    =  common_params['num_tests']
+    num_tests    =  params['num_tests']
+    draw_online    =  params['draw_online']
 
     # inertia_mode =  specific_params['inertia_mode']
     # fun          =  specific_params['fun']
@@ -22,27 +21,33 @@ def benchmark(param_path, fun, inertia_mode):
 
     best_fitnesses = []
     times = []
+    histories = []
 
     for _ in range(num_tests):
         # Uruchomienie algorytmu PSO
 
         start_time = time.time()
-        best_position, best_fitness, history = pso.pso(min_bound, max_bound, inertia_mode, fun, param_path, False)
+        best_position, best_fitness, history = pso.pso(min_bound, max_bound, inertia_mode, fun, params, draw_online)
         end_time = time.time()
         elapsed_time = end_time - start_time
+
+        histories.append(history)
 
         best_fitnesses.append(best_fitness)
         times.append(elapsed_time)
 
-    return best_fitnesses, times
+    histories_mean = np.mean(histories, axis=0).tolist()
+
+    return best_fitnesses, times, histories_mean
 
 
-def make_test(f_ammount, inertia_modes, param_path):
+def make_test(f_ammount, inertia_modes, params):
     values = []
     times = []
     average = []
     deviation_val = []
     deviation_prcnt = []
+    histories = []
 
     for f_id in range(f_ammount):
 
@@ -51,10 +56,12 @@ def make_test(f_ammount, inertia_modes, param_path):
         average.append([])
         deviation_val.append([])
         deviation_prcnt.append([])
+        histories.append([])
 
         for mode in range(inertia_modes):
+        # for mode in range(1):
 
-            test_values, test_times = benchmark(param_path, f_id+1, mode+1)
+            test_values, test_times, histories_means = benchmark(params, f_id+1, mode+1)
 
             mean = statistics.fmean(test_values)
             variance = statistics.variance(test_values, mean)
@@ -76,13 +83,15 @@ def make_test(f_ammount, inertia_modes, param_path):
             average[f_id].append(mean)
             deviation_val[f_id].append(standard_deviation)
             deviation_prcnt[f_id].append(std_dev_percent)
+            histories[f_id].append(histories_means)
 
     results = {
         "values": values,
         "mean": average,
         "standard deviation": deviation_val,
         "percentage deviation": deviation_prcnt,
-        "times": times
+        "times": times,
+        "histories_means": histories
     }
 
     return results
@@ -93,12 +102,15 @@ if __name__ == '__main__':
     param_path = "./parameters/edit_params.yaml"
     save_file_path = "./results/param_json.json"
 
+    common_params = fh.get_yaml_params(param_path, "common")
+    specific_params = fh.get_yaml_params(param_path, "specific")
+
     f_ammount = 6
     inertia_modes = 3
 
     start_time = time.time()
 
-    results = make_test(f_ammount, inertia_modes, param_path)
+    results = make_test(f_ammount, inertia_modes, common_params)
     fh.save_results(save_file_path, results)
 
     end_time = time.time()
