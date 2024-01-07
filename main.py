@@ -2,7 +2,7 @@ import time
 import yaml
 import numpy as np
 import statistics
-
+# import analysis
 import pso
 import plot
 import functions
@@ -36,9 +36,9 @@ def benchmark(params, fun, inertia_mode):
         best_fitnesses.append(best_fitness)
         times.append(elapsed_time)
 
-    histories_mean = np.mean(histories, axis=0).tolist()
+    
 
-    return best_fitnesses, times, histories_mean
+    return best_fitnesses, times, histories
 
 
 def make_test(f_ammount, inertia_modes, params):
@@ -61,12 +61,13 @@ def make_test(f_ammount, inertia_modes, params):
         for mode in range(inertia_modes):
         # for mode in range(1):
 
-            test_values, test_times, histories_means = benchmark(params, f_id+1, mode+1)
+            test_values, test_times, history = benchmark(params, f_id+1, mode+1)
 
             mean = statistics.fmean(test_values)
             variance = statistics.variance(test_values, mean)
             standard_deviation = np.sqrt(variance)
             std_dev_percent = abs(standard_deviation / mean) * 100
+            histories_mean = np.mean(history, axis=0).tolist()
 
             # TODO
             # nie wiem czy to procentowe odchylenie ma sens
@@ -83,7 +84,7 @@ def make_test(f_ammount, inertia_modes, params):
             average[f_id].append(mean)
             deviation_val[f_id].append(standard_deviation)
             deviation_prcnt[f_id].append(std_dev_percent)
-            histories[f_id].append(histories_means)
+            histories[f_id].append(histories_mean)
 
     results = {
         "values": values,
@@ -118,6 +119,8 @@ if __name__ == '__main__':
 
     print("benchmark ended")
     print(f'took {test_time} seconds')
+        
+    # analysis.analiza()
 
 
 """
