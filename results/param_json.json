@@ -4,7 +4,7 @@
       {
         "test_id": 1,
         "common parameters": {
-          "c1": 2.05,
+          "c1": 2.5,
           "c2": 2.05,
           "dimensions": 2,
           "draw_online": true,

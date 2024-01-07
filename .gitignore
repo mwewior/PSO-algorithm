@@ -1,8 +1,8 @@
 .flake8
-__pycache__
+__pycache__/
 pop.py
 test.py
 z_pop.py
 z_test.py
 test.py
-results
+results/
