@@ -93,9 +93,9 @@ def analiza():
     results_data = read_json(file_path)
     benchmark_data = results_data.get('benchmark', {})
     tests = benchmark_data.get('tests', [])
-    # krzywa_zbiegania(tests)
-    # krzywa_ECDF(tests)
+    krzywa_zbiegania(tests)
+    krzywa_ECDF(tests)
     box_plot(tests)
 
-
-analiza()
+if __name__ == '__main__':
+    analiza()

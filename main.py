@@ -1,10 +1,7 @@
 import time
-import yaml
 import numpy as np
 import statistics
-# import analysis
 import pso
-import plot
 import functions
 import file_handler as fh
 
@@ -121,5 +118,3 @@ if __name__ == '__main__':
 
     print("benchmark ended")
     print(f'took {test_time} seconds')
-
-    # analysis.analiza()
