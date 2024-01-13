@@ -17,9 +17,6 @@ def get_yaml_params(file_path: str, key=""):
 
 def save_results(file_path, test_results, clear=True):
 
-    # TODO
-    # normalnie nie będzie tego clear, albo będzie domyślnie na False ale na razie dla wygody jest True
-
     if os.path.getsize(file_path) <= 1 or clear is True:
         size = 0
         data = {
@@ -48,8 +45,7 @@ def save_results(file_path, test_results, clear=True):
 
     results_list = new_content["results"]
 
-    # jakoś inaczej przekazałbym to fun_amount
-    fun_amount = 6  #TODO
+    fun_amount = 6
     for f_id in range(fun_amount):
 
         cur_result = {
@@ -59,9 +55,6 @@ def save_results(file_path, test_results, clear=True):
         }
 
         for mode in range(3):
-
-            # obsługa zmiany parametrów
-            # wykonanie funkcji z maina
 
             values = test_results["values"][f_id][mode]
             mean = test_results["mean"][f_id][mode]

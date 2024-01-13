@@ -14,9 +14,6 @@ def benchmark(params, fun, inertia_mode):
     num_tests    =  params['num_tests']
     draw_online    =  params['draw_online']
 
-    # inertia_mode =  specific_params['inertia_mode']
-    # fun          =  specific_params['fun']
-
     min_bound, max_bound = functions.bounds(fun)
 
     best_fitnesses = []
@@ -36,12 +33,13 @@ def benchmark(params, fun, inertia_mode):
         best_fitnesses.append(best_fitness)
         times.append(elapsed_time)
 
-    
+
 
     return best_fitnesses, times, histories
 
 
 def make_test(f_ammount, inertia_modes, params):
+
     values = []
     times = []
     average = []
@@ -59,7 +57,6 @@ def make_test(f_ammount, inertia_modes, params):
         histories.append([])
 
         for mode in range(inertia_modes):
-        # for mode in range(1):
 
             test_values, test_times, history = benchmark(params, f_id+1, mode+1)
 
@@ -68,16 +65,6 @@ def make_test(f_ammount, inertia_modes, params):
             standard_deviation = np.sqrt(variance)
             std_dev_percent = abs(standard_deviation / mean) * 100
             histories_mean = np.mean(history, axis=0).tolist()
-
-            # TODO
-            # nie wiem czy to procentowe odchylenie ma sens
-            # trzeba by to sprawdzić
-            #
-            # to chyba będzie do wywalenia
-            # jeszcze trzeba dodoać wektor historii najlepszego rozwiązania
-            # żeby zobaczyć która wersja jest najszybsza itd.
-            # będzie trzeba jakieś dystrybuanty policzyć xD
-            # coś tam na wykładzie 6 jest
 
             values[f_id].append(test_values)
             times[f_id].append(test_times)
@@ -119,40 +106,5 @@ if __name__ == '__main__':
 
     print("benchmark ended")
     print(f'took {test_time} seconds')
-        
+
     # analysis.analiza()
-
-
-"""
-if __name__ == '__main__':
-
-    param_path = "./parameters/edit_params.yaml"
-    common_params = fh.get_yaml_params(param_path, "common")
-    specific_params = fh.get_yaml_params(param_path, "specific")
-
-    draw_online  =  common_params['draw_online']   # czy rysować online
-    draw_result  =  common_params['draw_result']   # czy narysować wynik
-    num_tests    =  common_params['num_tests']
-
-    inertia_mode =  specific_params['inertia_mode']
-    fun          =  specific_params['fun']
-
-    min_bound, max_bound = functions.bounds(fun)
-
-    best_fitnesses = []
-    start_time = time.time()
-
-    for _ in range(num_tests):
-        # Uruchomienie algorytmu PSO
-        best_position, best_fitness, history = pso.pso(min_bound, max_bound, inertia_mode, fun, param_path, draw_online)
-        best_fitnesses.append(best_fitness)
-
-    end_time = time.time()
-    elapsed_time = end_time - start_time
-
-    trash_num = int(0.05 * num_tests)
-    average = sum(sorted(best_fitnesses)[trash_num:-trash_num])/(num_tests - trash_num)
-
-    if draw_result:
-        plot.draw_result(best_position, best_fitness, min_bound, max_bound, fun)
-"""

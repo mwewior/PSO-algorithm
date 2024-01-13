@@ -25,10 +25,6 @@ def update_position(particle, min_bound, max_bound):
 
 def pso(min_bound, max_bound, inertia_mode, fun, params, draw=False):
 
-    # with open("params.yaml", "r") as pso_params:
-    #     params = yaml.load(pso_params, Loader=yaml.FullLoader)
-
-
     dim                     = params['dimensions']
     num_particles           = params['num_particles']
     max_iterations          = params['max_iterations']

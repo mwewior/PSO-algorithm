@@ -1,15 +1,15 @@
-# plot_convergence.py
 import json
 import matplotlib.pyplot as plt
 import numpy as np
+
 
 def read_json(file_path):
     with open(file_path, 'r') as file:
         data = json.load(file)
     return data
 
-def krzywa_zbiegania(tests):
 
+def krzywa_zbiegania(tests):
 
     for test in tests:
         common_params = test.get('common parameters', {})
@@ -30,6 +30,7 @@ def krzywa_zbiegania(tests):
             plt.ylabel('Funkcja celu')
             plt.legend()
             plt.show()
+
 
 def krzywa_ECDF(tests):
 
@@ -56,8 +57,9 @@ def krzywa_ECDF(tests):
                 plt.title(f'Krzywa ECDF- Funkcja {f_id} ({function_type}) Mode {mode}')
                 plt.show()
 
+
 def box_plot(tests):
-    
+
     for test in tests:
         common_params = test.get('common parameters', {})
         results = test.get('results', [])
@@ -77,7 +79,7 @@ def box_plot(tests):
 
 
 def analiza():
-    file_path = './results/param_json.json'  # Podaj ścieżkę do swojego pliku z wynikami
+    file_path = './results/param_json.json'
     results_data = read_json(file_path)
     benchmark_data = results_data.get('benchmark', {})
     tests = benchmark_data.get('tests', [])
