@@ -62,6 +62,8 @@ def save_results(file_path, test_results, clear=True):
             percentage_deviation = test_results["percentage deviation"][f_id][mode]
             times = test_results["times"][f_id][mode]
             histories_means = test_results["histories_means"][f_id][mode]
+            worst_fitness = test_results["worst_fitness"][f_id][mode]
+            best_fitness = test_results["best_fitness"][f_id][mode]
 
             cur_test = {
                 "mode": mode,
@@ -70,7 +72,9 @@ def save_results(file_path, test_results, clear=True):
                 "percentage deviation": percentage_deviation,
                 "values": values,
                 "time": times,
-                "histories_means": histories_means
+                "histories_means": histories_means,
+                "worst_fitness": worst_fitness,
+                "best_fitness": best_fitness
             }
             cur_result["inertia"].append(cur_test)
 

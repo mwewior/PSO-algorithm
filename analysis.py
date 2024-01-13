@@ -33,29 +33,39 @@ def krzywa_zbiegania(tests):
 
 
 def krzywa_ECDF(tests):
-
     for test in tests:
         common_params = test.get('common parameters', {})
         results = test.get('results', [])
         for result in results:
             f_id = result['f_id']
             function_type = result['function_type']
-
+            
+            # Inicjalizacja wspólnego wykresu dla danego result
+            plt.figure(figsize=(10, 6))
+            
             for inertia_data in result['inertia']:
                 mode = inertia_data['mode']
                 mean_fitness = inertia_data['histories_means']
+                
                 # Sortowanie danych
                 sorted_data = np.sort(mean_fitness)
-
+                
                 # Tworzenie krzywej ECDF
                 ecdf = np.arange(1, len(sorted_data) + 1) / len(sorted_data)
-
-                # Rysowanie krzywej ECDF
-                plt.plot(sorted_data, ecdf, marker='.', linestyle='none')
-                plt.xlabel('Wartości danych')
-                plt.ylabel('Dystrybuanta empiryczna')
-                plt.title(f'Krzywa ECDF- Funkcja {f_id} ({function_type}) Mode {mode}')
-                plt.show()
+                
+                # Rysowanie krzywej ECDF dla danego trybu inertia
+                plt.plot(sorted_data, ecdf, marker='.', linestyle='none', label=f'Mode {mode}')
+                
+            # Ustawienia etykiet i tytułu dla danego trybu inertia
+            plt.xlabel('Wartości danych')
+            plt.ylabel('Dystrybuanta empiryczna')
+            plt.title(f'Krzywa ECDF - Funkcja {f_id} ({function_type})')
+            
+            # Dodanie legendy
+            plt.legend()
+            
+            # Wyświetlenie wykresu dla danego trybu inertia
+            plt.show()
 
 
 def box_plot(tests):
