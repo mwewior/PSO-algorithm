@@ -36,14 +36,9 @@ def draw_online(min_bound, max_bound, fun):
 
 
 def draw_result(best_position, best_fitness, min_bound, max_bound, fun):
-
     draw_grid(min_bound, max_bound, fun)
-    # Oznaczenie znalezionego punktu
     plt.scatter([best_position[0]], [best_position[1]], color='w', s=50, label='Best Position')
     plt.show()
-    # plt.show(block=False)
-    # plt.pause(0.01)
-    # return
 
 
 def off():
@@ -52,3 +47,6 @@ def off():
 
 def pause():
     plt.pause(0.1)
+
+def print(fun,i):
+    plt.savefig(f'./wykresy/przebiegi/przebieg{fun}_iter{i}.png', format='png')

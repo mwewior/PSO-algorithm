@@ -23,13 +23,15 @@ def krzywa_zbiegania(tests):
                 mean_fitness = inertia_data['histories_means']
 
                 iterations = list(range(1, len(mean_fitness) + 1))
-                plt.plot(iterations, mean_fitness, label=f'Mode {mode}')
+                plt.plot(iterations, mean_fitness, label=f'tryb {mode+1}')
 
             plt.title(f'Krzywa zbiegania - Funkcja {f_id} ({function_type})')
             plt.xlabel('Iteracje')
             plt.ylabel('Funkcja celu')
             plt.legend()
+            plt.savefig(f'./wykresy/krzywa_zbiegania{f_id}.png', format='png')
             plt.show()
+            
 
 
 def krzywa_ECDF(tests):
@@ -39,32 +41,20 @@ def krzywa_ECDF(tests):
         for result in results:
             f_id = result['f_id']
             function_type = result['function_type']
-            
-            # Inicjalizacja wspólnego wykresu dla danego result
+
             plt.figure(figsize=(10, 6))
             
             for inertia_data in result['inertia']:
                 mode = inertia_data['mode']
                 mean_fitness = inertia_data['histories_means']
-                
-                # Sortowanie danych
                 sorted_data = np.sort(mean_fitness)
-                
-                # Tworzenie krzywej ECDF
                 ecdf = np.arange(1, len(sorted_data) + 1) / len(sorted_data)
-                
-                # Rysowanie krzywej ECDF dla danego trybu inertia
-                plt.plot(sorted_data, ecdf, marker='.', linestyle='none', label=f'Mode {mode}')
-                
-            # Ustawienia etykiet i tytułu dla danego trybu inertia
+                plt.plot(sorted_data, ecdf, marker='.', linestyle='none', label=f'tryb {mode+1}')               
             plt.xlabel('Wartości danych')
             plt.ylabel('Dystrybuanta empiryczna')
             plt.title(f'Krzywa ECDF - Funkcja {f_id} ({function_type})')
-            
-            # Dodanie legendy
             plt.legend()
-            
-            # Wyświetlenie wykresu dla danego trybu inertia
+            plt.savefig(f'./wykresy/krzywa_ecdf{f_id}.png', format='png')
             plt.show()
 
 
@@ -81,10 +71,11 @@ def box_plot(tests):
                 mode = inertia_data['mode']
                 values.append(inertia_data['values'])
             data_sets = [np.array(values[0]), np.array(values[1]), np.array(values[2])]
-            plt.boxplot(data_sets, labels=['Mode 1', 'Mode 2', 'Mode 3'])
+            plt.boxplot(data_sets, labels=['tryb 1', 'tryb 2', 'tryb 3'])
             plt.xlabel('Zbiory danych')
             plt.ylabel('Wartości danych')
             plt.title(f'Odchylenie standardowe - Funkcja {f_id} ({function_type})')
+            plt.savefig(f'./wykresy/box_plot{f_id}.png', format='png')
             plt.show()
 
 

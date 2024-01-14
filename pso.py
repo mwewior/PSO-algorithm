@@ -78,6 +78,9 @@ def pso(min_bound, max_bound, inertia_mode, fun, params, draw=False):
             plot_points.set_offsets(np.column_stack((x, y)))
             plot_best_point.set_offsets(np.column_stack((global_best_position[0], global_best_position[1])))
             plot.pause()
+            # if i % 10 == 0:
+            #     plot.print(fun, i)
+            
 
         history.append(global_best_fitness)
 
