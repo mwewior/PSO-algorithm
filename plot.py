@@ -49,4 +49,4 @@ def pause():
     plt.pause(0.1)
 
 def print(fun,i):
-    plt.savefig(f'./wykresy/przebiegi/przebieg{fun}_iter{i}.png', format='png')
+    plt.savefig(f'./wykresy/przebiegi/1przebieg{fun}_iter{i}.png', format='png')

@@ -70,12 +70,12 @@ def box_plot(tests):
             for inertia_data in result['inertia']:
                 mode = inertia_data['mode']
                 values.append(inertia_data['values'])
-            data_sets = [np.array(values[0]), np.array(values[1]), np.array(values[2])]
-            plt.boxplot(data_sets, labels=['tryb 1', 'tryb 2', 'tryb 3'])
+            data_sets = [np.array(values[1]), np.array(values[2])]
+            plt.boxplot(data_sets, labels=['tryb 2', 'tryb 3'])
             plt.xlabel('Zbiory danych')
             plt.ylabel('Wartości danych')
             plt.title(f'Odchylenie standardowe - Funkcja {f_id} ({function_type})')
-            plt.savefig(f'./wykresy/box_plot{f_id}.png', format='png')
+            plt.savefig(f'./wykresy/2box_plot{f_id}.png', format='png')
             plt.show()
 
 
@@ -84,8 +84,8 @@ def analiza():
     results_data = read_json(file_path)
     benchmark_data = results_data.get('benchmark', {})
     tests = benchmark_data.get('tests', [])
-    krzywa_zbiegania(tests)
-    krzywa_ECDF(tests)
+    # krzywa_zbiegania(tests)
+    # krzywa_ECDF(tests)
     box_plot(tests)
 
 if __name__ == '__main__':
