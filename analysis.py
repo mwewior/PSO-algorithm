@@ -9,8 +9,7 @@ def read_json(file_path):
     return data
 
 
-def krzywa_zbiegania(tests):
-
+def CDF(tests):
     for test in tests:
         common_params = test.get('common parameters', {})
         results = test.get('results', [])
@@ -31,10 +30,9 @@ def krzywa_zbiegania(tests):
             plt.legend()
             plt.savefig(f'./wykresy/krzywa_zbiegania{f_id}.png', format='png')
             plt.show()
-            
 
 
-def krzywa_ECDF(tests):
+def ECDF(tests):
     for test in tests:
         common_params = test.get('common parameters', {})
         results = test.get('results', [])
@@ -43,13 +41,13 @@ def krzywa_ECDF(tests):
             function_type = result['function_type']
 
             plt.figure(figsize=(10, 6))
-            
+
             for inertia_data in result['inertia']:
                 mode = inertia_data['mode']
                 mean_fitness = inertia_data['histories_means']
                 sorted_data = np.sort(mean_fitness)
                 ecdf = np.arange(1, len(sorted_data) + 1) / len(sorted_data)
-                plt.plot(sorted_data, ecdf, marker='.', linestyle='none', label=f'tryb {mode+1}')               
+                plt.plot(sorted_data, ecdf, marker='.', linestyle='none', label=f'tryb {mode+1}')
             plt.xlabel('Wartości danych')
             plt.ylabel('Dystrybuanta empiryczna')
             plt.title(f'Krzywa ECDF - Funkcja {f_id} ({function_type})')
@@ -59,7 +57,6 @@ def krzywa_ECDF(tests):
 
 
 def box_plot(tests):
-
     for test in tests:
         common_params = test.get('common parameters', {})
         results = test.get('results', [])
@@ -84,8 +81,8 @@ def analiza():
     results_data = read_json(file_path)
     benchmark_data = results_data.get('benchmark', {})
     tests = benchmark_data.get('tests', [])
-    krzywa_zbiegania(tests)
-    krzywa_ECDF(tests)
+    CDF(tests)
+    ECDF(tests)
     box_plot(tests)
 
 if __name__ == '__main__':

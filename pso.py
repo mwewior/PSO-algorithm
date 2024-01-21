@@ -1,12 +1,10 @@
 import random
 import numpy as np
-import yaml
 
 import plot
 from particle import Particle
 import functions
 import inertia
-import file_handler as fh
 
 
 def update_velocity(particle, global_best_position, inertia_weight, c1, c2):
@@ -80,9 +78,7 @@ def pso(min_bound, max_bound, inertia_mode, fun, params, draw=False):
             plot_points.set_offsets(np.column_stack((x, y)))
             plot_best_point.set_offsets(np.column_stack((global_best_position[0], global_best_position[1])))
             plot.pause()
-            # if i % 10 == 0:
-            #     plot.print(fun, i)
-            
+
 
         history.append(global_best_fitness)
 

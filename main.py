@@ -33,7 +33,7 @@ def benchmark(params, fun, inertia_mode):
     best_best_fitness = min(best_fitnesses)
     delete_index = sorted(range(len(best_fitnesses)), key=lambda i: best_fitnesses[i], reverse=True)[:int(len(best_fitnesses)*0.05)]
     delete_index = sorted(delete_index, reverse=True)
-    # Usuń odpowiednie elementy z każdej listy
+
     for index in delete_index:
         del best_fitnesses[index]
         del times[index]
