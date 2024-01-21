@@ -106,7 +106,7 @@ if __name__ == '__main__':
     specific_params = fh.get_yaml_params(param_path, "specific")
 
     f_ammount = 6
-    inertia_modes = 3
+    inertia_modes = 4
 
     start_time = time.time()
 

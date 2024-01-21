@@ -54,7 +54,7 @@ def save_results(file_path, test_results, clear=True):
             "inertia": []
         }
 
-        for mode in range(3):
+        for mode in range(4):
 
             values = test_results["values"][f_id][mode]
             mean = test_results["mean"][f_id][mode]

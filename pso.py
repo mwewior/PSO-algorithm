@@ -70,6 +70,8 @@ def pso(min_bound, max_bound, inertia_mode, fun, params, draw=False):
                 inertia_weight = inertia.mode2(i, max_iterations, initial_inertia_weight)
             elif inertia_mode == 3:
                 inertia_weight = inertia.mode3(particle.best_fitness, global_best_fitness, initial_inertia_weight)
+            elif inertia_mode == 4:
+                inertia_weight = inertia.mode4(i, max_iterations, initial_inertia_weight)
 
             update_velocity(particle, global_best_position, inertia_weight, c1, c2)
             update_position(particle, min_bound, max_bound)
