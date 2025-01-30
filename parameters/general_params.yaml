@@ -2,7 +2,7 @@ common:
   c1:  1.496
   c2:  1.496
   dimensions: 2
-  draw_online: False 
+  draw_online: True
   initial_inertia_weight: 0.72984
   max_iterations: 60
   num_tests: 500

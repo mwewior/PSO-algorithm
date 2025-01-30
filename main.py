@@ -8,8 +8,8 @@ import file_handler as fh
 
 def benchmark(params, fun, inertia_mode):
 
-    num_tests    =  params['num_tests']
-    draw_online    =  params['draw_online']
+    num_tests = params["num_tests"]
+    draw_online = params["draw_online"]
 
     min_bound, max_bound = functions.bounds(fun)
 
@@ -21,7 +21,9 @@ def benchmark(params, fun, inertia_mode):
         # Uruchomienie algorytmu PSO
 
         start_time = time.time()
-        best_position, best_fitness, history = pso.pso(min_bound, max_bound, inertia_mode, fun, params, draw_online)
+        best_position, best_fitness, history = pso.pso(
+            min_bound, max_bound, inertia_mode, fun, params, draw_online
+        )
         end_time = time.time()
         elapsed_time = end_time - start_time
 
@@ -31,7 +33,11 @@ def benchmark(params, fun, inertia_mode):
         times.append(elapsed_time)
     worst_fitness = max(best_fitnesses)
     best_best_fitness = min(best_fitnesses)
-    delete_index = sorted(range(len(best_fitnesses)), key=lambda i: best_fitnesses[i], reverse=True)[:int(len(best_fitnesses)*0.05)]
+    delete_index = sorted(
+        range(len(best_fitnesses)),
+        key=lambda i: best_fitnesses[i],
+        reverse=True,
+    )[: int(len(best_fitnesses) * 0.05)]
     delete_index = sorted(delete_index, reverse=True)
 
     for index in delete_index:
@@ -66,7 +72,9 @@ def make_test(f_ammount, inertia_modes, params):
 
         for mode in range(inertia_modes):
 
-            test_values, test_times, history, worst_fit, best_fit = benchmark(params, f_id+1, mode+1)
+            test_values, test_times, history, worst_fit, best_fit = benchmark(
+                params, f_id + 1, mode + 1
+            )
 
             mean = statistics.fmean(test_values)
             variance = statistics.variance(test_values, mean)
@@ -91,13 +99,13 @@ def make_test(f_ammount, inertia_modes, params):
         "times": times,
         "histories_means": histories,
         "worst_fitness": worst_fitness,
-        "best_fitness": best_fitness
+        "best_fitness": best_fitness,
     }
 
     return results
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("benchmark started")
     param_path = "./parameters/general_params.yaml"
     save_file_path = "./results/param_json.json"
@@ -117,4 +125,4 @@ if __name__ == '__main__':
     test_time = end_time - start_time
 
     print("benchmark ended")
-    print(f'took {test_time} seconds')
+    print(f"took {test_time} seconds")
